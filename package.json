@@ -1,0 +1,16 @@
+{
+  "name": "starter",
+  "version": "1.0.0",
+  "description": "Recipe app",
+  "default": "index.js",
+  "scripts": {
+    "test": "parcel index.html",
+    "build": "parcel build build.js"
+  },
+  "author": "I Iliev",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.7.0",
+    "parcel": "^2.7.0"
+  }
+}
