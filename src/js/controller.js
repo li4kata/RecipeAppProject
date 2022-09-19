@@ -20,15 +20,16 @@ import 'regenerator-runtime/runtime';
 ///////////////////////////////////////
 
 
-/////// Spinner loading animation 
-
-
-
 const controlRecipes  = async function (){
   try{
     const id = window.location.hash.slice(1);
     if(!id) return;
     recipeView.renderSpinner();
+
+    // 0) Update results view to mark selected search results 
+    resultsView.update(model.getSearchResultsPage());
+
+
     // 1) Loadin recipe
     await model.loadRecipe(id);
     // const res = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcfb2');
@@ -37,7 +38,9 @@ const controlRecipes  = async function (){
   }catch(err){
     console.error(err);
     recipeView.renderError();
+
   }
+ 
 };
 // controlRecipes();
 const controlSearchResults = async function(){
@@ -66,11 +69,23 @@ resultsView.render(model.getSearchResultsPage(goToPage));
 paginationView.render(model.state.search)
 }
 
+// control servings for the recipes
+const controlServings = function (newServings){
+    // Update the recipe servings (in state )
+    model.updateServings(newServings);
+    // Update the recipe veiw as well 
+    // recipeView.render(model.state.recipe);
+    recipeView.update(model.state.recipe);
+
+}
+
 // controlSearchResults()
 const init = function(){
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  
 };
 init();
 

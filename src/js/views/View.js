@@ -12,6 +12,37 @@ export default class View {
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
 
+
+    //Update method for text and light updates
+    update(data){
+        // if(!data || (Array.isArray(data) && data.lenght === 0)) return this.renderError()
+
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        ////////// creating someting like a virtual DOM element , and we can update just few lines insted of reloading everything
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll('*'));
+        const curElements =  Array.from(this._parentElement.querySelectorAll('*'));
+        
+        
+        newElements.forEach((newEl, i ) => {
+            const curEl = curElements[i];
+            console.log(curEl, newEl.isEqualNode(curEl));
+
+            if(
+                !newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== ''
+                ) {
+                curEl.textContent = newEl.textContent;
+            }
+            //update attributes
+            if(!newEl.isEqualNode(curEl))
+            Array.from(newEl.attributes).forEach(attr => curEl.setAttribute(attr.name, attr.value)
+            );
+
+        })
+    }
+
+
     _clear(){
         this._parentElement.innerHTML = '';
     }
