@@ -5,7 +5,7 @@
   "default": "index.js",
   "scripts": {
     "test": "parcel index.html",
-    "build": "parcel build build.js"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "author": "I Iliev",
   "license": "ISC",

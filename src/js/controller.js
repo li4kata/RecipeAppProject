@@ -119,6 +119,13 @@ try{
   recipeView.render(model.state.recipe);
   //success message
   addRecipeView.renderMessage();
+
+  //render the bookmark view
+  bookmarksView.render(model.state.bookmarks);
+
+// Change ID in URL ( history URL)
+window.history.pushState(null, '', `$${model.state.recipe.id}`);
+
   //close form window
   setTimeout(function(){
     addRecipeView.toggleWindow()
